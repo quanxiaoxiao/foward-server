@@ -61,4 +61,6 @@ ln -s "${PREFIX_LIB}/bin/node" "${PREFIX}/bin"
 ln -s "${PREFIX_LIB}/bin/npm" "${PREFIX}/bin"
 ln -s "${PREFIX_LIB}/bin/npx" "${PREFIX}/bin"
 
+export PATH=$PREFIX/bin:$PATH
+
 echo "install forward-server at ${TARGET}"
