@@ -8,6 +8,7 @@ PLATFORM="linux"
 ARCH="x64"
 FORWARD_SERVER_URL="https://github.com/quanxiaoxiao/foward-server/archive/0.0.1.tar.gz"
 TARGET="${HOME}/foward-server"
+PREFIX="${HOME}/.local"
 
 
 resolve_node_version() {
@@ -22,10 +23,14 @@ RESOLVED="$(resolve_node_version "$VERSION")"
 
 URL="${BASE_URL}/${RESOLVED}/node-${RESOLVED}-${PLATFORM}-${ARCH}.tar.gz"
 
-PREFIX="${HOME}/.local/bin/node-${RESOLVED}"
+PREFIX_LIB="${PREFIX}/lib/node-${RESOLVED}"
 
-if [ ! -d "${PREFIX}" ]; then
-  mkdir -p "${PREFIX}"
+if [ ! -d "${PREFIX_LIB}" ]; then
+  mkdir -p "${PREFIX_LIB}"
+fi
+
+if [ ! -d "${PREFIX}/bin" ]; then
+  mkdir "${PREFIX}/bin"
 fi
 
 if [ ! -d "${TARGET}" ]; then
@@ -38,9 +43,9 @@ curl -s "${URL}" \
   --exclude LICENSE \
   --exclude README.md \
   --strip-components 1 \
-  -C "${PREFIX}"
+  -C "${PREFIX_LIB}"
 
-echo "install node at ${PREFIX}"
+echo "install node at ${PREFIX_LIB}"
 
 curl -sL "${FORWARD_SERVER_URL}" \
   | tar -xzf - \
@@ -52,4 +57,8 @@ curl -sL "${FORWARD_SERVER_URL}" \
   --exclude README.md \
   -C "${TARGET}"
 
-echo "install forward-server at ${FORWARD_SERVER_URL}"
+ln -s "${PREFIX_LIB}/bin/node" "${PREFIX}/bin"
+ln -s "${PREFIX_LIB}/bin/npm" "${PREFIX}/bin"
+ln -s "${PREFIX_LIB}/bin/npx" "${PREFIX}/bin"
+
+echo "install forward-server at ${TARGET}"
