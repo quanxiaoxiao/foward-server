@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { struct } = require('@quanxiaoxiao/net');
+const { struct } = require('@quanxiaoxiao/binary');
 const config = require('./config');
 
 const pre = crypto.createHash('md5');
