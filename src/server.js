@@ -12,6 +12,7 @@ server.on('connection', (socket) => {
   const handleError = () => {};
   socket.once('error', handleError);
   socket.once('data', (chunk) => {
+    socket.pause();
     try {
       const { incoming, outgoing } = ss.handler();
       const options = ss.getOptions(outgoing(chunk));
@@ -23,6 +24,7 @@ server.on('connection', (socket) => {
         incoming,
         outgoing,
       });
+      socket.resume();
       socket.off('error', handleError);
     } catch (error) {
       socket.destroy();
@@ -42,6 +44,5 @@ process.on('uncaughtException', (error) => {
   }, 3000);
   killTimer.unref();
 });
-
 
 module.exports = server;

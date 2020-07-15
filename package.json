@@ -1,6 +1,6 @@
 {
   "name": "foward-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "src/server.js",
   "scripts": {
@@ -11,7 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@quanxiaoxiao/binary": "0.0.5",
-    "@quanxiaoxiao/net": "^0.1.0"
+    "@quanxiaoxiao/net": "^0.1.5"
+  },
+  "bundledDependencies": {
+    "@quanxiaoxiao/binary": "0.0.5",
+    "@quanxiaoxiao/net": "^0.1.5"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
