@@ -9,7 +9,14 @@ const config = require('./config');
 const server = net.createServer();
 
 server.on('connection', (socket) => {
-  const handleError = () => {};
+  const handleTimeout = () => {
+    if (!socket.destroyed) {
+      socket.destroy();
+    }
+  };
+  const handleError = () => {
+    socket.off('timeout', handleTimeout);
+  };
   socket.once('error', handleError);
   socket.once('data', (chunk) => {
     socket.pause();
@@ -24,6 +31,8 @@ server.on('connection', (socket) => {
         incoming,
         outgoing,
       });
+      socket.once('timeout', handleTimeout);
+      socket.setTimeout(1000 * 30);
       socket.resume();
       socket.off('error', handleError);
     } catch (error) {
