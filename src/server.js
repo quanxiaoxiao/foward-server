@@ -14,8 +14,8 @@ server.on('connection', (socket) => {
       socket.destroy();
     }
   };
-  const handleError = () => {
-    socket.off('timeout', handleTimeout);
+  const handleError = (error) => {
+    console.log(error);
   };
   socket.once('error', handleError);
   socket.once('data', (chunk) => {
@@ -33,8 +33,10 @@ server.on('connection', (socket) => {
       });
       socket.once('timeout', handleTimeout);
       socket.setTimeout(1000 * 30);
+      setTimeout(() => {
+        socket.off('error', handleError);
+      }, 10);
       socket.resume();
-      socket.off('error', handleError);
     } catch (error) {
       socket.destroy();
     }
